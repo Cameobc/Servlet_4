@@ -10,22 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.iu.action.ActionForward;
-import com.iu.board.qna.QnaService;
+import com.iu.member.MemberService;
 
 /**
- * Servlet implementation class QnaController
+ * Servlet implementation class MemberController
  */
-@WebServlet("/QnaController")
-public class QnaController extends HttpServlet {
+@WebServlet("/MemberController")
+public class MemberController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private QnaService qnaService;
+	private MemberService memberService;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaController() {
+    public MemberController() {
         super();
-        qnaService = new QnaService();
+        memberService = new MemberService();
         // TODO Auto-generated constructor stub
     }
 
@@ -34,17 +34,15 @@ public class QnaController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String command = request.getPathInfo();
-		ActionForward actionForward= null;
-		if(command.equals("/qnaList")) {
-			actionForward = qnaService.list(request, response);
-		}else if(command.equals("/qnaWrite")) {
-			actionForward=qnaService.insert(request, response);
-		}else if(command.equals("/qnaSelect")) {
-			actionForward = qnaService.select(request, response);
-		}else if(command.equals("/qnaUpdate")) {
-			actionForward=qnaService.update(request, response);
+		ActionForward actionForward = new ActionForward();
+		if(command.equals("/idCheck")) {
+			actionForward = memberService.idCheck(request, response);
+		}else if(command.equals("/memberLogin")) {
+			actionForward=memberService.login(request, response);
+		}else if(command.equals("/memberLogout")) {
+			actionForward= memberService.logout(request, response);
 		}
-		request.setAttribute("board", "qna");
+		
 		if(actionForward.isCheck()) {
 			RequestDispatcher view = request.getRequestDispatcher(actionForward.getPath());
 			view.forward(request, response);

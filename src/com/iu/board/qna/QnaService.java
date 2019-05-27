@@ -21,6 +21,7 @@ import com.iu.upload.UploadDTO;
 import com.iu.util.DBConnector;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.sun.org.apache.bcel.internal.util.BCELifier;
 
 public class QnaService implements Action {
 	private QnaDAO qnaDAO;
@@ -58,7 +59,6 @@ public class QnaService implements Action {
 			totalCount=qnaDAO.getTotalCount(searchRow, con);
 			List<BoardDTO> ar = qnaDAO.selectList(searchRow, con);
 			request.setAttribute("list", ar);
-			request.setAttribute("board", "qna");
 		} catch (Exception e) {
 		}
 		SearchPager searchPager = s.makePage(totalCount);
@@ -70,8 +70,24 @@ public class QnaService implements Action {
 
 	@Override
 	public ActionForward select(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ActionForward actionForward = new ActionForward();
+		int num = Integer.parseInt(request.getParameter("no"));
+		Connection con = null;
+		BoardDTO boardDTO = null;
+		try {
+			con = DBConnector.getConnect();
+			boardDTO = qnaDAO.selectOne(num, con);
+			List<UploadDTO> ar= uploadDAO.selectList(num, con);
+			request.setAttribute("dto", boardDTO);
+			request.setAttribute("ar", ar);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/board/boardSelect.jsp");
+		
+		return actionForward;
 	}
 
 	@Override
@@ -157,8 +173,38 @@ public class QnaService implements Action {
 
 	@Override
 	public ActionForward update(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ActionForward actionForward = new ActionForward();
+		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/board/boardUpdate.jsp");
+		String method = request.getMethod();
+		if(method.equals("POST")) {
+			//MultipartRequest multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
+		}else {
+			int num = Integer.parseInt(request.getParameter("no"));
+			Connection con = null;
+			BoardDTO boardDTO = null;
+			List<UploadDTO> ar = null;
+			try {
+				con = DBConnector.getConnect();
+				boardDTO=qnaDAO.selectOne(num, con);
+				ar = uploadDAO.selectList(num, con);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			request.setAttribute("dto", boardDTO);
+			request.setAttribute("ar", ar);
+		}
+		
+		
+		return actionForward;
 	}
 
 	@Override

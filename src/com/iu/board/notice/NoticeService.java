@@ -80,8 +80,10 @@ public class NoticeService implements Action {
 
 	@Override
 	public ActionForward select(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		return null;
+		ActionForward actionForward = new ActionForward();
+		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/index.jsp");
+		return actionForward;
 	}
 
 	@Override

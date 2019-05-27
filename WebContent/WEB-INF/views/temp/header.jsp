@@ -14,7 +14,7 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
     <c:choose>
-    	<c:when test="${sessionScope.memberDTO ==null }">
+    	<c:when test="${sessionScope.member ==null }">
  		 <li><a href="${pageContext.servletContext.contextPath}/member/memberLogin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
          <li><a href="${pageContext.request.contextPath }/member/memberCheck"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
     	</c:when>

@@ -10,22 +10,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.iu.action.ActionForward;
-import com.iu.board.qna.QnaService;
+import com.iu.upload.UploadService;
 
 /**
- * Servlet implementation class QnaController
+ * Servlet implementation class FileController
  */
-@WebServlet("/QnaController")
-public class QnaController extends HttpServlet {
+@WebServlet("/FileController")
+public class UploadController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private QnaService qnaService;
-       
+    private UploadService uploadService;  
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public QnaController() {
+    public UploadController() {
         super();
-        qnaService = new QnaService();
+        uploadService = new UploadService();
         // TODO Auto-generated constructor stub
     }
 
@@ -33,18 +32,12 @@ public class QnaController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String command = request.getPathInfo();
-		ActionForward actionForward= null;
-		if(command.equals("/qnaList")) {
-			actionForward = qnaService.list(request, response);
-		}else if(command.equals("/qnaWrite")) {
-			actionForward=qnaService.insert(request, response);
-		}else if(command.equals("/qnaSelect")) {
-			actionForward = qnaService.select(request, response);
-		}else if(command.equals("/qnaUpdate")) {
-			actionForward=qnaService.update(request, response);
+		String command= request.getPathInfo();
+		ActionForward actionForward = new ActionForward();
+		if(command.equals("/fileDelete")) {
+			actionForward=uploadService.delete(request, response);
 		}
-		request.setAttribute("board", "qna");
+		
 		if(actionForward.isCheck()) {
 			RequestDispatcher view = request.getRequestDispatcher(actionForward.getPath());
 			view.forward(request, response);
