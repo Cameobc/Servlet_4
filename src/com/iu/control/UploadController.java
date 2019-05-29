@@ -36,6 +36,8 @@ public class UploadController extends HttpServlet {
 		ActionForward actionForward = new ActionForward();
 		if(command.equals("/fileDelete")) {
 			actionForward=uploadService.delete(request, response);
+		}else if(command.equals("/fileUpload")) {
+			actionForward=uploadService.insert(request, response);
 		}
 		
 		if(actionForward.isCheck()) {

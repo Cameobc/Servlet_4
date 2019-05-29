@@ -7,10 +7,30 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <c:import url="../temp/bootstrap.jsp"/>
+<script type="text/javascript" src="../se2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
+var oEditors = [];
 	$(function() {
-			var count=1;
-			var d1=0;
+			
+			
+			nhn.husky.EZCreator.createInIFrame({
+				 oAppRef: oEditors,
+				 elPlaceHolder: "contents",
+				 sSkinURI: "../se2/SmartEditor2Skin.html",
+			       fOnAppLoad : function(){
+			              //기존 저장된 내용의 text 내용을 에디터상에 뿌려주고자 할때 사용
+			              oEditors.getById["contents"].exec("PASTE_HTML", []);
+			          },
+			          
+				 fCreator: "createSEditor2"
+				});
+				
+				//클릭하면 form전송
+				
+				$('#save').click(function() {
+					 oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", [""]);
+			          $("#frm").submit();
+				});
 		
 			$('.delete').click(function() {
 				var check=$(this).attr('id');
@@ -33,6 +53,7 @@
 							$('#'+check).remove();
 							//$(this).prev().remove();
 							//$(this).remove();
+							count--;
 						}else{
 							alert('Delete Fail');
 						}
@@ -40,13 +61,16 @@
 				}
 
 			});
-			
+		var count=${ar.size()};
+		var d1=0;
 		$('#up').click(function() {
 			d1++;
 				if(count<5){
 					$('#addfile').append('<input type="file" class="form-control" name="f'+d1+'"><span class="del">X</span>');
 					/*<div><input type="file" class="form-control" name="f1"><span class="del">X</span></div> ->this.parent().remove(); 세번째는 jquery5_html 보기*/
 					count++;
+					e.preventDefault();
+					
 				}else{
 					alert('5개까지만 추가 가능');
 				}
@@ -72,7 +96,7 @@
 <c:import url="../temp/header.jsp"/>
 <div class="container">
 	<h1>${board } Update</h1>
-	<form action="./${board }Update" method="post" enctype="multipart/form-data">
+	<form action="./${board }Update" id="frm" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="no" value="${dto.no }">
 	    <div class="form-group">
 	      <label for="title">Title:</label>
@@ -95,7 +119,7 @@
 	    <div class="form-group">
 		    <input type="button" value="Add" id="up" class="btn btn-primary">
 	    </div>
-		<button class="btn btn-danger">Update</button>
+		<input type="button" id="save" value="Update"/>
   </form>
 </div>
 </body>

@@ -1,12 +1,16 @@
 package com.iu.board.comments;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.iu.action.Action;
 import com.iu.action.ActionForward;
+import com.iu.page.SearchMakePage;
+import com.iu.page.SearchRow;
 import com.iu.util.DBConnector;
 
 public class CommentsService implements Action {
@@ -21,10 +25,45 @@ public class CommentsService implements Action {
 	@Override
 	public ActionForward list(HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = new ActionForward();
-		//commentsDAO.selectList(searchRow, con);
+		int curPage =1;
+		int num=0;
+		try {
+			curPage = Integer.parseInt(request.getParameter("curPage"));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		try {
+			
+			num = Integer.parseInt(request.getParameter("no"));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			
+		SearchMakePage s = new SearchMakePage(curPage, "", "");
+		SearchRow searchRow = s.makeRow();
+		Connection con = null;
+		List<CommentsDTO> ar =null;
+		
+		try {
+			con = DBConnector.getConnect();
+			ar=commentsDAO.selectList(searchRow, num, con);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		request.setAttribute("commentsList", ar);
+		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/common/list.jsp");
 		return actionForward;
 	}
-
+	
 	@Override
 	public ActionForward select(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
@@ -34,20 +73,84 @@ public class CommentsService implements Action {
 	@Override
 	public ActionForward insert(HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = new ActionForward();
+		CommentsDTO commentsDTO = new CommentsDTO();
+		commentsDTO.setNo(Integer.parseInt(request.getParameter("no")));
+		commentsDTO.setWriter(request.getParameter("writer"));
+		commentsDTO.setContents(request.getParameter("contents"));
+		int result = 0;
+		Connection con = null;
+		try {
+			con = DBConnector.getConnect();
+			result = commentsDAO.insert(commentsDTO, con);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		request.setAttribute("result", result);
 		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/common/result2.jsp");
 		return actionForward;
 	}
 
 	@Override
 	public ActionForward update(HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = new ActionForward();
+		CommentsDTO commentsDTO = new CommentsDTO();
+		commentsDTO.setCnum(Integer.parseInt(request.getParameter("cnum")));
+		commentsDTO.setContents(request.getParameter("contents"));
+		int result =0;
+		Connection con = null;
+		
+		try {
+			con = DBConnector.getConnect();
+			result = commentsDAO.update(con, commentsDTO);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		request.setAttribute("result", result);
 		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/common/result2.jsp");
 		return actionForward;
 	}
 
 	@Override
 	public ActionForward delete(HttpServletRequest request, HttpServletResponse response) {
 		ActionForward actionForward = new ActionForward();
+		Connection con = null;
+		int result = 0;
+		try {
+			int cnum = Integer.parseInt(request.getParameter("cnum"));
+			con = DBConnector.getConnect();
+			result = commentsDAO.delete(con, cnum);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		request.setAttribute("result", result);
+		actionForward.setCheck(true);
+		actionForward.setPath("../WEB-INF/views/common/result2.jsp");
 		return actionForward;
 	}
 

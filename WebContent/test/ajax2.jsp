@@ -18,8 +18,8 @@
 			}
 			
 			//2.요청정보기록 -동기/비동기방식 default = true;
+			xhttp.open("POST", "../member/idCheck", true);
 			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-			xhttp.open("POST", "../member/idCheck", false);
 			
 			//3.전송
 			xhttp.send("id="+$('#id').val());

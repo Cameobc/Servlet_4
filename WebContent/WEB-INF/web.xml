@@ -33,19 +33,27 @@
     <url-pattern>/qna/*</url-pattern>
   </servlet-mapping>
   <servlet>
-  	<servlet-name>file</servlet-name>
-  	<servlet-class>com.iu.control.UploadController</servlet-class>
+    <servlet-name>file</servlet-name>
+    <servlet-class>com.iu.control.UploadController</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>file</servlet-name>
-  	<url-pattern>/file/*</url-pattern>
+    <servlet-name>file</servlet-name>
+    <url-pattern>/file/*</url-pattern>
   </servlet-mapping>
   <servlet>
-  	<servlet-name>comments</servlet-name>
-  	<servlet-class>com.iu.control.CommentsController</servlet-class>
+    <servlet-name>comments</servlet-name>
+    <servlet-class>com.iu.control.CommentsController</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>comments</servlet-name>
-  	<url-pattern>/comments/*</url-pattern>
+    <servlet-name>comments</servlet-name>
+    <url-pattern>/comments/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>json</servlet-name>
+    <servlet-class>com.iu.control.JsonController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>json</servlet-name>
+    <url-pattern>/json/*</url-pattern>
   </servlet-mapping>
 </web-app>

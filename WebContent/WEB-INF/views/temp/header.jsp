@@ -16,7 +16,7 @@
     <c:choose>
     	<c:when test="${sessionScope.member ==null }">
  		 <li><a href="${pageContext.servletContext.contextPath}/member/memberLogin"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-         <li><a href="${pageContext.request.contextPath }/member/memberCheck"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+         <li><a href="${pageContext.request.contextPath }/member/memberJoin"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
     	</c:when>
 		<c:otherwise>
    		 <li><a href="${pageContext.servletContext.contextPath }/member/memberLogout"><span class="glyphicon glyphicon-user"></span> Logout</a></li>

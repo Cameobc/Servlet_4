@@ -178,7 +178,11 @@ public class QnaService implements Action {
 		actionForward.setPath("../WEB-INF/views/board/boardUpdate.jsp");
 		String method = request.getMethod();
 		if(method.equals("POST")) {
-			//MultipartRequest multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, policy);
+			/*
+			 * String saveDirectory = request. MultipartRequest multipartRequest = new
+			 * MultipartRequest(request, saveDirectory, maxPostSize, "utf-8", new
+			 * DefaultFileRenamePolicy);
+			 */
 		}else {
 			int num = Integer.parseInt(request.getParameter("no"));
 			Connection con = null;
