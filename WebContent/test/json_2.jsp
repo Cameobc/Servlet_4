@@ -9,7 +9,7 @@
 <script type="text/javascript">
 	$(function() {
 		$('#btn').click(function() {
-			$.get("https://yts.am/api/v2/list_movies.json?limit=10&sort=year", function(data) {
+			$.get("https://yts.am/api/v2/list_movies.json?limit=10&sort_by=year", function(data) {
 				
 				data.data.movies.forEach(function(d) {
 					var img = d.large_cover_image;

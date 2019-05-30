@@ -3,6 +3,7 @@ package com.iu.control;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +20,7 @@ import com.iu.board.notice.NoticeService;
 public class NoticeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private NoticeService noticeService;
+	private String board;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -28,11 +30,17 @@ public class NoticeController extends HttpServlet {
         noticeService = new NoticeService();
         // TODO Auto-generated constructor stub
     }
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+    	board=config.getInitParameter("board");
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String v=request.getServletContext().getInitParameter("view");
+		System.out.println(v);
 		String command = request.getPathInfo();
 		ActionForward actionForward = new ActionForward();
 		if(command.equals("/noticeList")) {
@@ -50,7 +58,9 @@ public class NoticeController extends HttpServlet {
 		}else {
 			actionForward = new ActionForward();
 		}
-		request.setAttribute("board", "notice");
+		
+		request.setAttribute("board", board);
+		
 		if(actionForward.isCheck()) {
 			RequestDispatcher view = request.getRequestDispatcher(actionForward.getPath());
 			view.forward(request, response);

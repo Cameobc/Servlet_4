@@ -51,6 +51,7 @@ public class CommentsController extends HttpServlet {
 		}else {
 			response.sendRedirect(actionForward.getPath());
 		}
+		System.out.println("Notice");
 	}
 
 	/**
