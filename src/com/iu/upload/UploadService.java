@@ -42,6 +42,7 @@ public class UploadService implements Action {
 		ActionForward actionForward = new ActionForward();
 		int maxPostSize = 1024*1024*50;
 		String saveDirectory = request.getServletContext().getRealPath("upload_se2");
+		System.out.println(saveDirectory);
 		//System.out.println(saveDirectory);
 		File file = new File(saveDirectory);
 		if(!file.exists()) {
@@ -59,6 +60,7 @@ public class UploadService implements Action {
 			
 			//2.최종결과물
 			String result = "&bNewLine=true&sFileURL="+path+"/upload_se2/"+fname;
+			System.out.println(result);
 			
 			//3.
 			result=callback+"?callback_func="+callback_func+result;

@@ -40,9 +40,9 @@ public class SearchMakePage {
 		}
 		//3.totalBlock
 		int perBlock = 5;
-		int totalBlcok = totalPage/perBlock;
+		int totalBlock = totalPage/perBlock;
 		if(totalPage%perBlock!=0) {
-			totalBlcok++;
+			totalBlock++;
 		}
 		//4.curPage로 curBlock
 		int curBlock = curPage/perBlock;
@@ -54,13 +54,13 @@ public class SearchMakePage {
 		int lastNum = curBlock*perBlock;
 		
 		//6.curBlock이 마지막블록일 때
-		if(curBlock==totalBlcok) {
+		if(curBlock==totalBlock) {
 			lastNum = totalPage;
 		}
 		SearchPager searchPager = new SearchPager();
 		searchPager.setCurPage(curPage);
 		searchPager.setCurBlock(curBlock);
-		searchPager.setTotalBlock(totalBlcok);
+		searchPager.setTotalBlock(totalBlock);
 		searchPager.setSearch(search);
 		searchPager.setLastNum(lastNum);
 		searchPager.setStartNum(startNum);

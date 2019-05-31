@@ -23,8 +23,7 @@
 		 fCreator: "createSEditor2"
 		});
 		
-		//클릭하면 form전송
-		
+		//클릭하면 form전송		
 		$('#save').click(function() {
 			 oEditors.getById["contents"].exec("UPDATE_CONTENTS_FIELD", []);
 	          $("#frm").submit();
